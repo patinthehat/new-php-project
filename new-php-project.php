@@ -52,9 +52,9 @@ $classes  = explode(',', trim($argv[3])); //classes to generate, comma-seperated
 $project = new PHPProject($projectName, $targetBasePath);
 
 $files = array(
-  "autoload.php"=>$project->generate_autoloader_code(),
-  "$projectName.php"=>$project->generate_project_code(),
-  "README.md"=>"",
+  new File("autoload.php", ".", $project->generate_autoloader_code()),
+  new File("$projectName.php",".", $project->generate_project_code()),
+  new File("README.md",".", ""),
 );
 
 $project->setClasses($classes);   //classnames to generate

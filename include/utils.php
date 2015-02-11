@@ -61,9 +61,9 @@ function spaces_to_underscores($str)
 
 function php_compat_str($str)
 {
+  $str = trim($str);
+  
   $str = spaces_to_underscores($str);
   $str = dashes_to_underscores($str);
-  
-  $str = trim($str);
   return $str;  
 }

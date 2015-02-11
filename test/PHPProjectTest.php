@@ -9,7 +9,7 @@ class PHPProjectTest extends \PHPUnit_Framework_TestCase
     $project = new PHPProject('TESTNAME', 'TESTBASEPATH');
     $project->addClass('MyClass1');    
     $this->assertEquals('MyClass1', $project->getClasses()[0]);
-    $this->assertEquals(1, count($project->getClasses()));
+    $this->assertCount(1, $project->getClasses());
   }  
 
   public function testSetClasses()
@@ -17,15 +17,16 @@ class PHPProjectTest extends \PHPUnit_Framework_TestCase
     $project = new PHPProject('TESTNAME', 'TESTBASEPATH');
     $project->setClasses(array('MyClass1'));  
     $this->assertEquals('MyClass1', $project->getClasses()[0]);
-    $this->assertEquals(1, count($project->getClasses()));
+    $this->assertCount(1, $project->getClasses());
   }
   
   public function testGetClassFilenames()
   {
     $project = new PHPProject('TESTNAME', 'TESTBASEPATH');
     $project->setClasses(array('MyClass1'));
-    //$this->assertEquals('classes/MyClass1.php', $project->getClassFilenames()['classes/MyClass1.php']);
-    $this->assertEquals(1, count($project->getClassFilenames()));
+    
+    $this->assertEquals('classes/MyClass1.php', $project->getClassFilenames()['MyClass1']);
+    $this->assertCount(1, $project->getClassFilenames());
   }
   
   public function testAddClassFiles()
@@ -35,8 +36,8 @@ class PHPProjectTest extends \PHPUnit_Framework_TestCase
     $project->addClassFiles();
     
     $codeTest = $project->generate_class_code('MyClass1');
-    $this->assertEquals(md5($codeTest), md5($project->getFiles()['classes/MyClass1.php']));
-    $this->assertEquals(1, count($project->getFiles())); 
+    $this->assertEquals(md5($codeTest), md5($project->getFiles()['classes/MyClass1.php']->getData()));
+    $this->assertCount(1, $project->getFiles()); 
   }
   
   public function testGenerateClassCode()

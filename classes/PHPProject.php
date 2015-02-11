@@ -63,7 +63,7 @@ class PHPProject extends Project
   {
     $files = $this->getClassFilenames();
     foreach($files as $cn=>$cfn) {
-      $this->addFile($cfn, $this->generate_class_code($cn));
+      $this->addFile(new File($cfn, ".", $this->generate_class_code($cn)));
     }
   }
   

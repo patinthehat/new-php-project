@@ -89,14 +89,18 @@ abstract class Project
     return $this->paths;
   }
   
-  function addFile($filename, $data)
+  function addFile($file)
   {
-    $this->files[$filename] = $data;
+    $file->setPath($this->getTargetPath());
+    $this->files[$file->getFilename()] = $file;
   }  
   
   function setFiles($files)
   {
-    $this->files = $files;
+    $this->files = array();
+    foreach($files as $f) {
+      $this->files[$f->getFilename()] = $f;
+    }
   }
   
   function getFiles()
@@ -123,10 +127,11 @@ abstract class Project
   function createProjectFiles()
   {
     $targetPath = $this->getTargetPath();
-    foreach($this->files as $file=>$data){
+    foreach($this->files as $filename=>$f){
+      $f->setPath($targetPath);
       //echo "createFile: $targetPath/$file\n";
-      if (!file_exists("$targetPath/$file"))
-        file_put_contents("$targetPath/$file", $data);
+      if (!$f->exists())
+        $f->save();//file_put_contents("$targetPath/$file", $data);
     }
     
     return TRUE;
