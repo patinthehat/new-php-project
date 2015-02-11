@@ -1,6 +1,5 @@
 ## new-php-project ##
-Generate a basic PHP project in the current directory.
-
+Generate a basic PHP project in the current directory. [![Build Status](https://travis-ci.org/patinthehat/new-php-project.png)](https://travis-ci.org/patinthehat/new-php-project)
 ---
 
 ### Usage ###
