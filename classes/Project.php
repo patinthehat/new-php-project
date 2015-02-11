@@ -84,6 +84,11 @@ abstract class Project
     $this->paths = $paths;
   }
   
+  function getPaths() 
+  {
+    return $this->paths;
+  }
+  
   function addFile($filename, $data)
   {
     $this->files[$filename] = $data;
@@ -92,6 +97,11 @@ abstract class Project
   function setFiles($files)
   {
     $this->files = $files;
+  }
+  
+  function getFiles()
+  {
+    return $this->files;
   }
   
   function createProjectPaths() 
@@ -124,7 +134,8 @@ abstract class Project
   
   function createProject()
   {
-    $this->preCreateProject();
+    if (!$this->preCreateProject())
+      return FALSE;
     $ret = TRUE;
     $ret = $ret && $this->createProjectPaths();
     $ret = $ret && $this->createProjectFiles();
