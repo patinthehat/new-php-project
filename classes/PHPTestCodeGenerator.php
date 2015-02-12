@@ -27,8 +27,6 @@ class PHPTestCodeGenerator implements ICodeGenerator
     if (preg_match('/.*\/(.*)\.php/', $param, $m) == 1)
       $className = $m[1];
     
-    print_r($m);
-    
     $code = "<?php
       
 class {$className}Test extends \PHPUnit_Framework_TestCase
