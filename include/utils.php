@@ -33,8 +33,8 @@ function usage($projectFilename)
 Usage: 
    $projectFilename [--paths=paths-to-create] [--classes=classes-to-create] [-R|--readme] [-T|--tests] [project-name]
 
-   --paths=<a,b,...>    : extra directories to create in the project folder, comma seperated.
-   --classes=<a,b,...>  : classes to generate, comma seperated.
+   --paths=<a,b,...>    : extra directories to create in the project folder, comma separated.
+   --classes=<a,b,...>  : classes to generate, comma separated.
    -R|--readme          : generate a readme file.
    -T|--tests           : generate a \"tests\" directory.
    -h|--help            : show this message.
