@@ -35,33 +35,10 @@ class PHPProjectTest extends \PHPUnit_Framework_TestCase
     $project->setClasses(array('MyClass1'));
     $project->addClassFiles();
     
-    $codeTest = $project->generate_class_code('MyClass1');
+    $codeTest = PHPClassCodeGenerator::generate($project, 'MyClass1');
     $this->assertEquals(md5($codeTest), md5($project->getFiles()['classes/MyClass1.php']->getData()));
     $this->assertCount(1, $project->getFiles()); 
   }
-  
-  public function testGenerateClassCode()
-  {
-    $project = new PHPProject('TESTNAME', 'TESTBASEPATH'); 
-    $codeTest = $project->generate_class_code('MyClass1');  
-    $this->assertRegExp('/class MyClass1/im', $codeTest);
-    $this->assertStringMatchesFormat('%Aclass%AMyClass1%A{%A}%A', $codeTest);
-  }
-
-  public function testGenerateAutoloaderCode()
-  {
-    $project = new PHPProject('TESTNAME', 'TESTBASEPATH');
-    $codeTest = $project->generate_autoloader_code();
-    $this->assertEquals(1, preg_match('/function _.*_autoload/im', $codeTest));
-    $this->assertEquals(1, preg_match('/spl_autoload_register/i', $codeTest));
-  }  
-  
-  public function testGenerateProjectCode()
-  {
-    $project = new PHPProject('TESTNAME', 'TESTBASEPATH');
-    $codeTest = $project->generate_project_code();
-    $this->assertRegExp('/.*<?php.*/im', $codeTest);
-  }  
   
   public function testGetFilename()
   {
@@ -74,6 +51,13 @@ class PHPProjectTest extends \PHPUnit_Framework_TestCase
     $project = new PHPProject('TESTNAME', 'TESTBASEPATH');
     $this->assertTrue($project->preCreateProject());
     $project->postCreateProject();
-  }  
+  }
   
+  public function testPostCreateProject()
+  {
+    $project = new PHPProject('TESTNAME', 'TESTBASEPATH');
+    $project->preCreateProject();
+    $this->assertTrue($project->postCreateProject());
+  }
+    
 }

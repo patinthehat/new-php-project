@@ -41,7 +41,8 @@ i.e., $projectFilename 'myproject' '' ''
 function valid_project_name($projectName)
 {
   $ret = TRUE;
-  if (file_exists($projectName))
+  $projectName = safe_filesystem_name($projectName);
+  if (file_exists($projectName) || $projectName == "")
     return FALSE;
 
   return $ret;
@@ -66,4 +67,12 @@ function php_compat_str($str)
   $str = spaces_to_underscores($str);
   $str = dashes_to_underscores($str);
   return $str;  
+}
+
+function safe_filesystem_name($str)
+{
+  $str = preg_replace('/:/', '', $str);
+  $str = preg_replace('/\$/', '', $str);
+  $str = preg_replace('/&/', '', $str);
+  return $str;
 }

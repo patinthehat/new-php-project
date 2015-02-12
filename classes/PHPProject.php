@@ -63,7 +63,7 @@ class PHPProject extends Project
   {
     $files = $this->getClassFilenames();
     foreach($files as $cn=>$cfn) {
-      $this->addFile(new File($cfn, ".", $this->generate_class_code($cn)));
+      $this->addFile(new File($cfn, ".", PHPClassCodeGenerator::generate(null, $cn)));
     }
   }
   
@@ -82,49 +82,4 @@ class PHPProject extends Project
     return $this->getTargetPath() . "/" . $this->name . ".php";
   }
 
-  function generate_autoloader_code()
-  {
-    $projectName = $this->getName();
-    $projectNameFixed = php_compat_str("${projectName}");
-  
-    $code = "<?php
-
-  function _${projectNameFixed}_autoloader(\$className)
-  {
-    if (file_exists(\"classes/\$className.php\"))
-      include_once(\"classes/\$className.php\"); 
-  }
-        
-  spl_autoload_register('_${projectNameFixed}_autoloader');
-    
-  ";
-  
-    return $code;
-  }
-  
-  function generate_class_code($className)
-  {
-    $code = "<?php
-
-class $className
-{
-  function __construct() {
-    //
-  }
-
-}
-";
-    return $code;
-  }  
-  
-  function generate_project_code()
-  {
-    $code = "#!/usr/bin/php
-<?php
-  
-include(\"autoload.php\");
-  
-";
-    return $code;
-  }  
 }
