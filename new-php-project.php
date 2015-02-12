@@ -32,7 +32,7 @@
 include('autoload.php');
 include_once('include/utils.php');
 
-$ap = new ArgumentParser($av);
+$ap = new ArgumentParser($argv);
 $ap->parse();
 
 if ($ap->getOperandCount() == 0) {
