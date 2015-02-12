@@ -13,7 +13,7 @@ Generates a basic PHP project in the current directory.
 
   __Optional Flags__:
   
-    - `-T|--tests` -  generate a "tests" directory.
+    - `-T|--tests` -  generate a "tests" directory, and unit test files for any classes generated with `--classes`.
     
     - `-R|--readme` - generate a README file.
     
