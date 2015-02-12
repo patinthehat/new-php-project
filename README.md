@@ -13,19 +13,22 @@ Generates a basic PHP project in the current directory.  Optionally, generate ot
 
   __Optional Flags__:
   
-  - `-T`|`--tests`:  generate a "tests" directory, and 
+  - `-T`|`--tests` -  generate a "tests" directory, and 
     unit test files for any classes generated with `--classes`.
-  - `-R`|`--readme` - generate a README file.
+  - `-R`|`--readme` - generate a README file in markdown format.
+  - `-h`|`--help` - show help/usage message.
   - `--classes=<a,b,...>` - generate classes, comma separated.
   - `--paths=<a,b,...>` - generate additional paths, comma separated.
-    
+      
   __Examples__:
-  
+
+  - `new-php-project.php "project1"`  
   - `new-php-project.php "project1" --tests --classes=MyClass1,MyClass2`
-  - `new-php-project.php "project1" -RT`
+  - `new-php-project.php --tests --classes=MyClass1 my-project-1`
+  - `new-php-project.php --paths=docs,contrib myProject1`
+  - `new-php-project.php "project1" -RT` *is equal to the following call:*
   - `new-php-project.php "project1" --readme --tests`
-  - `new-php-project.php "project1"`
-  
+
 ---
 ### Defaults ###
 ---
