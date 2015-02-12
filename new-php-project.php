@@ -32,21 +32,8 @@
 include('autoload.php');
 include_once('include/utils.php');
 
-$av = array("./new-php-project.php", "-A", "-B", "CCC", "DDD");
-
 $ap = new ArgumentParser($av);
 $ap->parse();
-
-echo $ap->hasArgument("A") .PHP_EOL;
-echo $ap->hasArgument("B") .PHP_EOL;
-echo $ap->hasArgument("C") .PHP_EOL;
-
-echo $ap->getOperandCount() .PHP_EOL;
-echo $ap->getOperand(0) .PHP_EOL;
-echo $ap->getOperand(1) .PHP_EOL;
-
-print_r($av);
-die(0);
 
 if ($ap->getOperandCount() == 0) {
   usage(basename(__FILE__,".php"));
