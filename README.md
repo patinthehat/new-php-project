@@ -23,9 +23,13 @@ Generates a basic PHP project in the current directory.
     
   
   __Examples__:
+  
     - `new-php-project.php "project1" --tests --classes=MyClass1,MyClass2` 
+    
     - `new-php-project.php "project1" -RT` 
+    
     - `new-php-project.php "project1" --readme --tests` 
+    
     - `new-php-project.php "project1"`
   
 ---
