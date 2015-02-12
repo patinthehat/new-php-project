@@ -66,7 +66,7 @@ class PHPProject extends Project
       $this->addFile(new File($cfn, ".", PHPClassCodeGenerator::generate(null, $cn)));
       if ($generateTests) {
         $tfn = str_replace("classes/", "tests/", $cfn);
-        $this->addFile(new File($tfn, ".", PHPTestCodeGenerator::generate($project, $cfn)));
+        $this->addFile(new File($tfn, ".", PHPTestCodeGenerator::generate(null, $cfn)));
       }
     }
   }

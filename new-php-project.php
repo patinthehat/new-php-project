@@ -29,8 +29,8 @@
  */
 
 
-include('autoload.php');
-include_once('include/utils.php');
+require_once(dirname(__FILE__).'/autoload.php');
+require_once(dirname(__FILE__).'/include/utils.php');
 
 $ap = new ArgumentParser($argv);
 $ap->parse();

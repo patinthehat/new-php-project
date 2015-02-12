@@ -1,6 +1,6 @@
 <?php
 
-require_once('include/utils.php');
+require_once(dirname(__FILE__).'/../include/utils.php');
 
 class ArgumentParser 
 {

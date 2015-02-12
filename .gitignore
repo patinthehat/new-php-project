@@ -1,5 +1,6 @@
 .settings/**
 build/**
+data/**
 .buildpath
 .project
 .php_error.log
