@@ -2,3 +2,4 @@
 build/**
 .buildpath
 .project
+.php_error.log

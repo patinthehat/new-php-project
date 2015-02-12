@@ -32,29 +32,68 @@
 include('autoload.php');
 include_once('include/utils.php');
 
-if ($argc < 4) {
+$av = array("./new-php-project.php", "-A", "-B", "CCC", "DDD");
+
+$ap = new ArgumentParser($av);
+$ap->parse();
+
+echo $ap->hasArgument("A") .PHP_EOL;
+echo $ap->hasArgument("B") .PHP_EOL;
+echo $ap->hasArgument("C") .PHP_EOL;
+
+echo $ap->getOperandCount() .PHP_EOL;
+echo $ap->getOperand(0) .PHP_EOL;
+echo $ap->getOperand(1) .PHP_EOL;
+
+print_r($av);
+die(0);
+
+if ($ap->getOperandCount() == 0) {
   usage(basename(__FILE__,".php"));
   die(1);
 }
 
-$projectName      = trim($argv[1]);
+if ($ap->hasArgument("help") || $ap->hasArgument("h")) {
+  usage(basename(__FILE__,".php"));
+  die(0);
+}
+
+$projectName      = trim($ap->getOperand(0));
 $targetBasePath   = realpath(".");
 $targetPath       = "$targetBasePath/$projectName"; 
 
-if (!valid_project_name($projectName)) {
-  echo "Invalid project name: project already exists.";
+if (project_exists($projectName)) {
+  echo "Invalid project name: project already exists.\n";
   die(1);
 }
 
-$paths    = explode(',', "classes,include,".trim($argv[2]));  //paths to create other than classes,include
-$classes  = explode(',', trim($argv[3])); //classes to generate, comma-seperated
+if (!valid_project_name($projectName)) {
+  echo "Invalid project name.\n";
+  die(1);
+}
+
+$pathsArgValue = "";
+$classesArgValue = "";
+$generateReadme = ($ap->hasArgument("readme") || $ap->hasArgument("R"));
+
+if ($ap->hasArgument("paths"))
+  $pathsArgValue = trim($ap->getArgumentValue("paths"));
+
+if ($ap->hasArgument("classes"))
+  $classesArgValue = trim($ap->getArgumentValue("classes"));
+
+if ($ap->hasArgument("tests") || $ap->hasArgument("T"))
+  $pathsArgValue .= ",tests";
+
+$paths    = explode(',', "classes,include,$pathsArgValue");  //paths to create other than classes,include
+$classes  = explode(',', $classesArgValue); //classes to generate, comma-seperated
 
 $project = new PHPProject($projectName, $targetBasePath);
 
 $files = array(
   new File("autoload.php", ".",     PHPAutoloadCodeGenerator::generate($project)),
   new File("$projectName.php",".",  PHPProjectCodeGenerator::generate($project)),
-  new File("README.md",".",         ReadmeMarkdownCodeGenerator::generate($project)),
+  ($generateReadme ? new File("README.md",".", ReadmeMarkdownCodeGenerator::generate($project)) : false),
 );
 
 $project->setClasses($classes);   //classnames to generate

@@ -99,7 +99,8 @@ abstract class Project
   {
     $this->files = array();
     foreach($files as $f) {
-      $this->files[$f->getFilename()] = $f;
+      if ($f)
+        $this->files[$f->getFilename()] = $f;
     }
   }
   

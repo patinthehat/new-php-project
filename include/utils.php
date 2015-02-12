@@ -30,9 +30,19 @@
 function usage($projectFilename)
 {
   $message = "$projectFilename - generate a new PHP project.
-Usage: $projectFilename [project-name] [paths-to-create] [classes-to-create]
-i.e., $projectFilename 'myproject' 'tests' 'MyClass1,MyClass2,MyClass3'
-i.e., $projectFilename 'myproject' '' ''
+Usage: 
+   $projectFilename [--paths=paths-to-create] [--classes=classes-to-create] [-R|--readme] [-T|--tests] [project-name]
+
+   --paths=<a,b,...>    : extra directories to create in the project folder, comma seperated.
+   --classes=<a,b,...>  : classes to generate, comma seperated.
+   -R|--readme          : generate a readme file.
+   -T|--tests           : generate a \"tests\" directory.
+   -h|--help            : show this message.
+   
+i.e., $projectFilename 'myProjectName' --paths=templates --classes=MyClass1,MyClass2 --readme
+i.e., $projectFilename 'myProjectName' --tests
+i.e., $projectFilename --tests --readme 'myProjectName'
+
 ";
 
   echo trim($message) . PHP_EOL;
@@ -46,6 +56,13 @@ function valid_project_name($projectName)
     return FALSE;
 
   return $ret;
+}
+
+function project_exists($projectName)
+{
+  if (file_exists($projectName) && is_dir($projectName))
+    return true;
+  return false;
 }
 
 function dashes_to_underscores($str)
@@ -75,4 +92,11 @@ function safe_filesystem_name($str)
   $str = preg_replace('/\$/', '', $str);
   $str = preg_replace('/&/', '', $str);
   return $str;
+}
+
+function firstChars($str, $count)
+{
+  if (!is_string($str))
+    return "";
+  return substr($str, 0, $count);
 }

@@ -55,4 +55,21 @@ class UtilsTest extends \PHPUnit_Framework_TestCase
     $this->assertEquals(safe_filesystem_name("\$myfile.php"), "myfile.php");
   }
   
+  public function testFirstChars() 
+  {
+    $s = "ABCDEF";
+    $this->assertEquals("A",    firstChars($s, 1));
+    $this->assertEquals("ABC",  firstChars($s, 3));
+    $this->assertEquals("",     firstChars(false, 1));
+    $this->assertEquals("",     firstChars(null, 1));
+  }
+  
+  public function testProjectExists()
+  {
+    $projectName = "TESTPROJECT".mt_rand(10000,99999);
+    $this->assertFalse(project_exists($projectName));
+    mkdir("./$projectName");
+    $this->assertTrue(project_exists($projectName));
+    rmdir("./$projectName");
+  }
 }
