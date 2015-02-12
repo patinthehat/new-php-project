@@ -59,11 +59,15 @@ class PHPProject extends Project
     return $ret;
   }
   
-  function addClassFiles()
+  function addClassFiles($generateTests = FALSE)
   {
     $files = $this->getClassFilenames();
     foreach($files as $cn=>$cfn) {
       $this->addFile(new File($cfn, ".", PHPClassCodeGenerator::generate(null, $cn)));
+      if ($generateTests) {
+        $tfn = str_replace("classes/", "tests/", $cfn);
+        $this->addFile(new File($tfn, ".", PHPTestCodeGenerator::generate($project, $cfn)));
+      }
     }
   }
   

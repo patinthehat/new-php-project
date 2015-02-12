@@ -62,6 +62,7 @@ if (!valid_project_name($projectName)) {
 $pathsArgValue = "";
 $classesArgValue = "";
 $generateReadme = ($ap->hasArgument("readme") || $ap->hasArgument("R"));
+$generateTests = ($ap->hasArgument("tests") || $ap->hasArgument("T"));
 
 if ($ap->hasArgument("paths"))
   $pathsArgValue = trim($ap->getArgumentValue("paths"));
@@ -69,7 +70,7 @@ if ($ap->hasArgument("paths"))
 if ($ap->hasArgument("classes"))
   $classesArgValue = trim($ap->getArgumentValue("classes"));
 
-if ($ap->hasArgument("tests") || $ap->hasArgument("T"))
+if ($generateTests)
   $pathsArgValue .= ",tests";
 
 $paths    = explode(',', "classes,include,$pathsArgValue");  //paths to create other than classes,include
@@ -86,7 +87,7 @@ $files = array(
 $project->setClasses($classes);   //classnames to generate
 $project->setPaths($paths);       //paths to create
 $project->setFiles($files);       //files to create
-$project->addClassFiles();        //generate new class filenames and add the to files
+$project->addClassFiles($generateTests); //generate new class filenames and add the to files, 
 $project->createProject();        //generate the new project
 
 chmod($project->getProjectFilename(), 0755); //make project file executable
