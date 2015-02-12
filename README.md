@@ -17,6 +17,8 @@ Generates a basic PHP project in the current directory.  Optionally, generate ot
     unit test files for any classes generated with `--classes`.
   - `-R`|`--readme` - generate a README file in markdown format.
   - `-h`|`--help` - show help/usage message.
+  - `--phpunit` - generate a PHPUnit configuration file.
+  - `-C|--coverage` - generate code coverage report, requires `--phpunit`.
   - `--classes=<a,b,...>` - generate classes, comma separated.
   - `--paths=<a,b,...>` - generate additional paths, comma separated.
       

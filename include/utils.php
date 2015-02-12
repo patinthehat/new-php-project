@@ -37,6 +37,8 @@ Usage:
    --classes=<a,b,...>  : classes to generate, comma separated.
    -R|--readme          : generate a readme file.
    -T|--tests           : generate a \"tests\" directory and unit tests for generated classes.
+   --phpunit            : generate a PHPUnit configuration file.
+   -C|--coverage        : generate code coverage report, requires --phpunit.
    -h|--help            : show this message.
    
 i.e., $projectFilename 'myProjectName' --paths=templates --classes=MyClass1,MyClass2 --readme

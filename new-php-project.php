@@ -63,6 +63,9 @@ $pathsArgValue = "";
 $classesArgValue = "";
 $generateReadme = ($ap->hasArgument("readme") || $ap->hasArgument("R"));
 $generateTests = ($ap->hasArgument("tests") || $ap->hasArgument("T"));
+$generatePhpUnitConfig = ($ap->hasArgument("phpunit"));
+$codeCoverage = ($ap->hasArgument("coverage") || $ap->hasArgument("C"));
+$phpUnitCodeCoverage = ($generatePhpUnitConfig && $codeCoverage ? 1 : 0);
 
 if ($ap->hasArgument("paths"))
   $pathsArgValue = trim($ap->getArgumentValue("paths"));
@@ -82,6 +85,7 @@ $files = array(
   new File("autoload.php", ".",     PHPAutoloadCodeGenerator::generate($project)),
   new File("$projectName.php",".",  PHPProjectCodeGenerator::generate($project)),
   ($generateReadme ? new File("README.md",".", ReadmeMarkdownCodeGenerator::generate($project)) : false),
+  ($generatePhpUnitConfig ? new File("phpunit.xml",".", PHPUnitConfigurationCodeGenerator::generate($project, array('coverage'=>$phpUnitCodeCoverage))) : false),  
 );
 
 $project->setClasses($classes);   //classnames to generate
