@@ -84,6 +84,7 @@ $paths    = explode(',', "classes,include,$pathsArgValue");  //paths to create o
 $classes  = explode(',', $classesArgValue); //classes to generate, comma-seperated
 
 $project = new PHPProject($projectName, $targetBasePath);
+$project->setPaths($paths);       //paths to create
 
 $files = array(
   new File("autoload.php", ".",     PHPAutoloadCodeGenerator::generate($project)),
@@ -95,7 +96,6 @@ $files = array(
 );
 
 $project->setClasses($classes);   //classnames to generate
-$project->setPaths($paths);       //paths to create
 $project->setFiles($files);       //files to create
 $project->addClassFiles($generateTests); //generate new class filenames and add the to files, 
 $project->createProject();        //generate the new project

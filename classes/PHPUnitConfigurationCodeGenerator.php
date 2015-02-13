@@ -15,7 +15,17 @@ class PHPUnitConfigurationCodeGenerator implements ICodeGenerator
             highlight="true"
             lowUpperBound="40"
             highLowerBound="70"
-        />' : "");  
+        />' : "");
+    $dirs = "";
+
+    if (!is_null($project)) {
+      foreach($project->getPaths() as $path)
+        if ($path != "tests")
+          $dirs .= "            <directory suffix=\".php\">$path</directory>\n";
+    }
+    
+    if ($dirs == "")
+      $dirs = "            <directory suffix=\".php\">classes</directory>";
     
     $code = '
 <?xml version="1.0" encoding="UTF-8"?>
@@ -37,8 +47,7 @@ class PHPUnitConfigurationCodeGenerator implements ICodeGenerator
 
     <filter>
         <whitelist>
-            <directory suffix=".php">classes</directory>
-            <directory suffix=".php">include</directory>
+'.$dirs.'
         </whitelist>
     </filter>
 
