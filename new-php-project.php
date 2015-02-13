@@ -77,7 +77,7 @@ $gitIgnoreData .= "### php error log ###\n".ini_get('error_log')."\n\n";
 if ($generateGitIgnore) {
   $gitIgnoreIoAPI = new GitIgnoreAPI(new HttpClient());
   $gitIgnoreItems = $ap->getArgumentValueIfExists("gitignore", "");
-  if (!$gitIgnoreItems)
+  if (!$gitIgnoreItems || $gitIgnoreItems == "")
     $gitIgnoreItems = $ap->getArgumentValueIfExists("gi", "");
   
   if ($gitIgnoreItems != "" && $gitIgnoreItems !== false) {
