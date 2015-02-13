@@ -60,7 +60,7 @@ If `--tests` is passed AND classes are specified with `--classes`, unit test cla
 
 By default, the php error log file is added to the `.gitignore` file _(ini setting "`error_log`")_.
 
-If you choose to generate a `.gitignore` file and specify a value _(`--gitignore=a,b,c`)_, `new-php-project` will access the <a href="https://gitignore.io">gitignore.io</a> api service.  For a full list of acceptable values, visit <a href="https://gitignore.io/api/list">gitignore.io/api/list</a>.
+If you choose to generate a `.gitignore` file and specify a value _(`--gitignore=a,b,c`)_, `new-php-project` will access the <a href="https://www.gitignore.io">gitignore.io</a> api service.  For a full list of acceptable values, visit <a href="https://www.gitignore.io/api/list">gitignore.io/api/list</a>.
 
 Example values: `linux`, `windows`, `eclipse`, `c`, `c++`.
 
