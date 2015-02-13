@@ -118,6 +118,17 @@ class ArgumentParserTest extends \PHPUnit_Framework_TestCase
     $this->assertFalse($ap1->getArgumentValue(false));
   }  
   
+  public function testGetArgumentValueIfExists()
+  {
+    $ap1 = $this->getArgParser("hasOperands");
+    $ap1->parse();
+    $this->assertTrue($ap1->getArgumentValueIfExists('a', false));
+    $this->assertTrue($ap1->getArgumentValueIfExists('b', false));
+    $this->assertFalse($ap1->getArgumentValueIfExists('z', false));
+    $this->assertEquals(null, $ap1->getArgumentValueIfExists('z', null));
+    $this->assertEquals("TEST", $ap1->getArgumentValueIfExists('x', "TEST"));
+  }
+  
   public function testGetArgumentCount()
   {
     $ap1 = $this->getArgParser("hasOperands");

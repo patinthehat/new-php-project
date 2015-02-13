@@ -59,19 +59,13 @@ if (!valid_project_name($projectName)) {
   die(1);
 }
 
-$pathsArgValue = "";
-$classesArgValue = "";
+$pathsArgValue          = $ap->getArgumentValueIfExists("paths", "");
+$classesArgValue        = $ap->getArgumentValueIfExists("classes", "");
 $generateReadme         = $ap->hasOneOfArguments(array("readme","R"));
 $generateTests          = $ap->hasOneOfArguments(array("tests","T"));
 $generatePhpUnitConfig  = $ap->hasArgument("phpunit");
 $codeCoverage           = $ap->hasOneOfArguments(array("coverage","C"));
-$phpUnitCodeCoverage = ($generatePhpUnitConfig && $codeCoverage ? 1 : 0);
-
-if ($ap->hasArgument("paths"))
-  $pathsArgValue = trim($ap->getArgumentValue("paths"));
-
-if ($ap->hasArgument("classes"))
-  $classesArgValue = trim($ap->getArgumentValue("classes"));
+$phpUnitCodeCoverage    = ($generatePhpUnitConfig && $codeCoverage ? 1 : 0);
 
 if ($generateTests)
   $pathsArgValue .= ",tests";

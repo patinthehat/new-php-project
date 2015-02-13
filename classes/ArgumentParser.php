@@ -85,6 +85,12 @@ class ArgumentParser
     return false;
   }
   
+  function getArgumentValueIfExists($name, $defaultValue)
+  {
+    $result = ($this->hasArgument($name) ? $this->getArgument($name)->getValue() : $defaultValue);
+    return $result;
+  }
+  
   function getArgumentCount()
   {
     return count($this->arguments);
