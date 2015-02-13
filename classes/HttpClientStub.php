@@ -38,7 +38,7 @@ class HttpClientStub extends HttpClient
     return false;
   }
     
-  public function get($url, $useSSL = TRUE, $options = array())
+  public function get($url, $useSSL = TRUE, $newConnectionsOnly = FALSE, $options = array())
   {
     foreach($this->returnData as $re=>$data) {
       if (preg_match($re, $url)==1) {
