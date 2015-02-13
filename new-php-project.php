@@ -72,8 +72,8 @@ $gitIgnoreData = "";
 //by default, have git ignore the php error log
 $gitIgnoreData .= "### php error log ###\n".ini_get('error_log')."\n\n";
 
-//generate a .gitignore file using http://gitignore.io API if types were passed
-//using --gitignore=a,b,c; see http://gitignore.io/api/list
+//generate a .gitignore file using https://www.gitignore.io API if types were passed
+//using --gitignore=a,b,c; see https://www.gitignore.io/api/list
 if ($generateGitIgnore) {
   $gitIgnoreIoAPI = new GitIgnoreAPI(new HttpClient());
   $gitIgnoreItems = $ap->getArgumentValueIfExists("gitignore", "");
