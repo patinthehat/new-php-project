@@ -68,6 +68,27 @@ $codeCoverage           = $ap->hasOneOfArguments(array("coverage",  "C"));
 $generateGitIgnore      = $ap->hasOneOfArguments(array("gitignore", "gi"));
 $generateLicense        = $ap->hasOneOfArguments(array("license",   "L"));
 
+$gitIgnoreData = "";
+//by default, have git ignore the php error log
+$gitIgnoreData .= "### php error log ###\n".ini_get('error_log')."\n\n";
+
+//generate a .gitignore file using http://gitignore.io API if types were passed
+//using --gitignore=a,b,c; see http://gitignore.io/api/list
+if ($generateGitIgnore) {
+  $gitIgnoreIoAPI = new GitIgnoreAPI(new HttpClient());
+  $gitIgnoreItems = $ap->getArgumentValueIfExists("gitignore", "");
+  if (!$gitIgnoreItems)
+    $gitIgnoreItems = $ap->getArgumentValueIfExists("gi", "");
+  
+  if ($gitIgnoreItems != "" && $gitIgnoreItems !== false) {
+    $gitIgnoreIoAPI->addItemsStr($gitIgnoreItems);
+    $gitIgnoreIoAPI->getHttpClient()->init(10, "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10; rv:33.0) Gecko/20100101 Firefox/33.0");
+    $gitIgnoreIoAPI->getHttpClient()->setGzipEncoding(true);
+    $gitIgnoreData .= $gitIgnoreIoAPI->getGitIgnore();
+    unset($gitIgnoreIoAPI);
+  }
+}
+
 $licenseName = $ap->getArgumentValueIfExists("license", false);
 if (!$licenseName)
   $licenseName = $ap->getArgumentValueIfExists("L", false);
@@ -85,19 +106,19 @@ $classes  = explode(',', $classesArgValue); //classes to generate, comma-seperat
 
 $project = new PHPProject($projectName, $targetBasePath);
 $project->setPaths($paths);       //paths to create
+$project->setClasses($classes);   //classnames to generate
 
 $files = array(
   new File("autoload.php", ".",     PHPAutoloadCodeGenerator::generate($project)),
   new File("$projectName.php",".",  PHPProjectCodeGenerator::generate($project)),
-  ($generateReadme ? new File("README.md",".", ReadmeMarkdownCodeGenerator::generate($project)) : false),
+  ($generateReadme        ? new File("README.md",".", ReadmeMarkdownCodeGenerator::generate($project)) : false),
   ($generatePhpUnitConfig ? new File("phpunit.xml",".", PHPUnitConfigurationCodeGenerator::generate($project, array('coverage'=>$phpUnitCodeCoverage))) : false),
-  ($generateGitIgnore ? new File(".gitignore", ".", "") : false),
-  ($generateLicense ? new File("LICENSE", ".", "") : false), 
+  ($generateGitIgnore     ? new File(".gitignore", ".", $gitIgnoreData) : false),
+  ($generateLicense       ? new File("LICENSE", ".", "") : false), 
 );
 
-$project->setClasses($classes);   //classnames to generate
 $project->setFiles($files);       //files to create
-$project->addClassFiles($generateTests); //generate new class filenames and add the to files, 
+$project->addClassFiles($generateTests); //generate new class filenames and add them to files 
 $project->createProject();        //generate the new project
 
 chmod($project->getProjectFilename(), 0755); //make project file executable

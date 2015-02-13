@@ -8,7 +8,10 @@ Generates a basic PHP project in the current directory.  Optionally generates ot
 ---
 ### Usage ###
 ---
-  Make sure you `chmod +x new-php-project.php` first, otherwise commands must be prefixed with `php -f new-php-project.php`.
+
+  _Make sure you `chmod +x new-php-project.php` first, otherwise commands must be prefixed with `php -f new-php-project.php`._
+  
+  _To make `new-php-project` easier to use, it's recommended to add the directory that `new-php-project` is located in to your `$PATH` environment variable._
   
   `$ new-php-project.php "project-name"`
 
@@ -21,6 +24,7 @@ Generates a basic PHP project in the current directory.  Optionally generates ot
   - `-U`|`--phpunit` - generate a PHPUnit configuration file. *Implies `--tests`.*
   - `-C|--coverage` - generate code coverage report, requires `--phpunit`.
   - `--gi`|`--gitignore` - generate an empty .gitignore file.
+  - `--gitignore=<a,b,...>` - generate a .gitignore file using the gitignore.io api service.
   - `--classes=<a,b,...>` - generate classes, comma separated.
   - `--paths=<a,b,...>` - generate additional paths, comma separated.
       
@@ -49,6 +53,16 @@ By default, the following are created:
 No classes are generated unless specifically provided.
 
 If `--tests` is passed AND classes are specified with `--classes`, unit test classes are generated in `tests/` for each class.
+
+---
+### Generation of `.gitignore` ###
+---
+
+By default, the php error log file is added to the `.gitignore` file _(ini setting "`error_log`")_.
+
+If you choose to generate a `.gitignore` file and specify a value _(`--gitignore=a,b,c`)_, `new-php-project` will access the <a href="https://gitignore.io">gitignore.io</a> api service.  For a full list of acceptable values, visit <a href="https://gitignore.io/api/list">gitignore.io/api/list</a>.
+
+Example values: `linux`, `windows`, `eclipse`, `c`, `c++`.
 
 ---
 ### License ###

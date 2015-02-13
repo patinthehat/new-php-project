@@ -35,7 +35,8 @@ Usage:
 
    --paths=[a,b,...]    : directories to create in the project folder, comma separated.
    --classes=[a,b,...]  : classes to generate, comma separated.
-   --gi|--gitignore     : generate an empty .gitignore file.   
+   --gi|--gitignore     : generate an empty .gitignore file.
+   --gitignore=[a,b,...]: generate a .gitignore file using the gitignore.io api; see http://gitignore.io/api/list   
    -L|--license         : generate an empty LICENSE file.
    -R|--readme          : generate a readme file in markdown format.
    -T|--tests           : generate a \"tests\" directory and unit tests for generated classes.
