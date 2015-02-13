@@ -31,19 +31,22 @@ function usage($projectFilename)
 {
   $message = "$projectFilename - generate a new PHP project.
 Usage: 
-   $projectFilename [--paths=paths-to-create] [--classes=classes-to-create] [-R|--readme] [-T|--tests] [project-name]
+   $projectFilename <options> [project-name]
 
-   --paths=<a,b,...>    : extra directories to create in the project folder, comma separated.
-   --classes=<a,b,...>  : classes to generate, comma separated.
-   -R|--readme          : generate a readme file.
+   --paths=[a,b,...]    : directories to create in the project folder, comma separated.
+   --classes=[a,b,...]  : classes to generate, comma separated.
+   --gi|--gitignore     : generate an empty .gitignore file.   
+   -L|--license         : generate an empty LICENSE file.
+   -R|--readme          : generate a readme file in markdown format.
    -T|--tests           : generate a \"tests\" directory and unit tests for generated classes.
-   --phpunit            : generate a PHPUnit configuration file.
+   -U|--phpunit         : generate a PHPUnit configuration file. Implies --tests.
    -C|--coverage        : generate code coverage report, requires --phpunit.
    -h|--help            : show this message.
-   
-i.e., $projectFilename 'myProjectName' --paths=templates --classes=MyClass1,MyClass2 --readme
-i.e., $projectFilename 'myProjectName' --tests
-i.e., $projectFilename --tests --readme 'myProjectName'
+
+Examples:
+  * $projectFilename 'myProjectName' --paths=templates --classes=MyClass1,MyClass2 --readme
+  * $projectFilename 'myProjectName' --tests
+  * $projectFilename -TR myProjectName
 
 ";
 

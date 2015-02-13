@@ -59,13 +59,23 @@ if (!valid_project_name($projectName)) {
   die(1);
 }
 
-$pathsArgValue          = $ap->getArgumentValueIfExists("paths", "");
-$classesArgValue        = $ap->getArgumentValueIfExists("classes", "");
-$generateReadme         = $ap->hasOneOfArguments(array("readme","R"));
-$generateTests          = $ap->hasOneOfArguments(array("tests","T"));
-$generatePhpUnitConfig  = $ap->hasArgument("phpunit");
-$codeCoverage           = $ap->hasOneOfArguments(array("coverage","C"));
+$pathsArgValue          = $ap->getArgumentValueIfExists("paths",    "");
+$classesArgValue        = $ap->getArgumentValueIfExists("classes",  "");
+$generateReadme         = $ap->hasOneOfArguments(array("readme",    "R"));
+$generateTests          = $ap->hasOneOfArguments(array("tests",     "T"));
+$generatePhpUnitConfig  = $ap->hasOneOfArguments(array("phpunit",   "U"));
+$codeCoverage           = $ap->hasOneOfArguments(array("coverage",  "C"));
+$generateGitIgnore      = $ap->hasOneOfArguments(array("gitignore", "gi"));
+$generateLicense        = $ap->hasOneOfArguments(array("license",   "L"));
+
+$licenseName = $ap->getArgumentValueIfExists("license", false);
+if (!$licenseName)
+  $licenseName = $ap->getArgumentValueIfExists("L", false);
+
 $phpUnitCodeCoverage    = ($generatePhpUnitConfig && $codeCoverage ? 1 : 0);
+
+if ($generatePhpUnitConfig) //phpUnitConfig flag implies --tests
+  $generateTests = true;
 
 if ($generateTests)
   $pathsArgValue .= ",tests";
@@ -79,7 +89,9 @@ $files = array(
   new File("autoload.php", ".",     PHPAutoloadCodeGenerator::generate($project)),
   new File("$projectName.php",".",  PHPProjectCodeGenerator::generate($project)),
   ($generateReadme ? new File("README.md",".", ReadmeMarkdownCodeGenerator::generate($project)) : false),
-  ($generatePhpUnitConfig ? new File("phpunit.xml",".", PHPUnitConfigurationCodeGenerator::generate($project, array('coverage'=>$phpUnitCodeCoverage))) : false),  
+  ($generatePhpUnitConfig ? new File("phpunit.xml",".", PHPUnitConfigurationCodeGenerator::generate($project, array('coverage'=>$phpUnitCodeCoverage))) : false),
+  ($generateGitIgnore ? new File(".gitignore", ".", "") : false),
+  ($generateLicense ? new File("LICENSE", ".", "") : false), 
 );
 
 $project->setClasses($classes);   //classnames to generate
