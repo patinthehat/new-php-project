@@ -78,6 +78,22 @@ class ArgumentParserTest extends \PHPUnit_Framework_TestCase
     $this->assertFalse($ap1->hasArgument(false));
   }
   
+  public function testHasOneOfArguments()
+  {
+    $ap1 = $this->getArgParser("hasOperands");
+    $ap1->parse();
+    $this->assertTrue($ap1->hasOneOfArguments(array("a","b","c")));
+    $this->assertTrue($ap1->hasOneOfArguments("a","b","c"));
+    $this->assertTrue($ap1->hasOneOfArguments(array("a","BB","CC")));
+    $this->assertTrue($ap1->hasOneOfArguments(array("AA","b","CC")));
+    $this->assertTrue($ap1->hasOneOfArguments("AA","BB","c"));    
+    $this->assertFalse($ap1->hasOneOfArguments(array("AA","BB","CC")));
+    $this->assertFalse($ap1->hasOneOfArguments(array()));
+    $this->assertFalse($ap1->hasOneOfArguments(array(false,null)));
+    $this->assertFalse($ap1->hasOneOfArguments(false,false));
+    
+  }
+  
   public function testGetArgument()
   {
     $ap1 = $this->getArgParser("hasOperands");

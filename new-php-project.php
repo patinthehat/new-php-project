@@ -35,14 +35,14 @@ require_once(dirname(__FILE__).'/include/utils.php');
 $ap = new ArgumentParser($argv);
 $ap->parse();
 
+if ($ap->hasOneOfArguments("help","h")) {
+  usage(basename(__FILE__,".php"));
+  die(0);
+}
+
 if ($ap->getOperandCount() == 0) {
   usage(basename(__FILE__,".php"));
   die(1);
-}
-
-if ($ap->hasArgument("help") || $ap->hasArgument("h")) {
-  usage(basename(__FILE__,".php"));
-  die(0);
 }
 
 $projectName      = trim($ap->getOperand(0));
@@ -61,10 +61,10 @@ if (!valid_project_name($projectName)) {
 
 $pathsArgValue = "";
 $classesArgValue = "";
-$generateReadme = ($ap->hasArgument("readme") || $ap->hasArgument("R"));
-$generateTests = ($ap->hasArgument("tests") || $ap->hasArgument("T"));
-$generatePhpUnitConfig = ($ap->hasArgument("phpunit"));
-$codeCoverage = ($ap->hasArgument("coverage") || $ap->hasArgument("C"));
+$generateReadme         = $ap->hasOneOfArguments(array("readme","R"));
+$generateTests          = $ap->hasOneOfArguments(array("tests","T"));
+$generatePhpUnitConfig  = $ap->hasArgument("phpunit");
+$codeCoverage           = $ap->hasOneOfArguments(array("coverage","C"));
 $phpUnitCodeCoverage = ($generatePhpUnitConfig && $codeCoverage ? 1 : 0);
 
 if ($ap->hasArgument("paths"))

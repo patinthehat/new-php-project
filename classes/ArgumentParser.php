@@ -49,6 +49,24 @@ class ArgumentParser
     return false;      
   }
   
+  function hasOneOfArguments($names)
+  {
+    if (!is_array($names) && func_num_args() > 1) {
+      $args = func_get_args();
+      if (is_string($names))
+        $args[] = $names;
+      $names = $args;
+    }
+    
+    $result = false;
+    foreach($names as $name) {
+      $result = $this->hasArgument($name);
+      if ($result)
+        return true;
+    }
+    return false;      
+  }
+  
   function getArgument($name)
   {
     foreach($this->arguments as $arg) {
@@ -128,6 +146,5 @@ class ArgumentParser
       $n++;
     }
   }
-  
   
 }

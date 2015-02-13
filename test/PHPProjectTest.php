@@ -40,6 +40,17 @@ class PHPProjectTest extends \PHPUnit_Framework_TestCase
     $this->assertCount(1, $project->getFiles()); 
   }
   
+  public function testAddClassFilesWithGenerateTests()
+  {
+    $project = new PHPProject('TESTNAME', 'TESTBASEPATH');
+    $project->setClasses(array('MyClass1'));
+    $project->addClassFiles(true);  
+    $data = PHPTestCodeGenerator::generate($project, "classes/MyClass1.php");    
+    $codeTest = PHPClassCodeGenerator::generate($project, 'MyClass1');
+    $this->assertEquals($data, $project->getFiles()['tests/MyClass1Test.php']->getData());
+    $this->assertCount(2, $project->getFiles());
+  }  
+  
   public function testGetFilename()
   {
     $project = new PHPProject('TESTNAME', 'TESTBASEPATH');
