@@ -29,6 +29,7 @@ From the command line:
   - `-U`|`--phpunit` - generate a PHPUnit configuration file. *Implies `--tests`.*
   - `-C`|`--coverage` - generate code coverage report, requires `--phpunit`.
   - `-X`|`--exec` - add a hashbang line to the `project.php`, and `chmod +x project.php`.  Use this option to enable the `project.php` to be executable from the command line.
+  - `-W`|`--web` - generate a website project, with standard files such as an index, project javascript and stylesheet files, and standard paths such as `css/`.
   - `--gi`|`--gitignore` - generate an empty .gitignore file.
   - `--gitignore=<a,b,...>` - generate a .gitignore file using the gitignore.io api service.
   - `--license=<license-name>` - generate a license file for the specified license using the provided license templates.
@@ -118,13 +119,14 @@ _@TODO: add template format specification_
 ## TODO ##
 ---
 
-  - [ ] Refactor application code to separate class
   - [x] Add support for generating license files and headers
   - [x] Move `project.php` executable support to a command line flag
-  - [ ] Add more license templates
-  - [ ] Add support for generating web applications
+  - [x] Add support for generating web applications
   - [ ] Add support for generating arbitrary files
-  - [ ] PSR-4 autoloading support
+  - [x] PSR-4 autoloading support
+  - [ ] PSR-4 Class autoloading support  
+  - [ ] Refactor application code to separate class
+  - [ ] Add more license templates
   
 ---
 ## Project Licensing ##

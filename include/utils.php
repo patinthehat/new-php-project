@@ -43,6 +43,7 @@ Usage:
    -U|--phpunit         : generate a PHPUnit configuration file. Implies --tests.
    -C|--coverage        : generate code coverage report, requires --phpunit.
    -X|--exec            : add a hashbang line to the project.php file, and chmod +x project.php.
+   -W|--web             : generate a website project; creates additonal default paths and files.
    -h|--help            : show this message.
 
 Examples:
