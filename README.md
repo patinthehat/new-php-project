@@ -5,7 +5,7 @@ Generates a basic PHP project in the current directory.  Optionally generates ot
 
 [![Build Status](https://travis-ci.org/patinthehat/new-php-project.png)](https://travis-ci.org/patinthehat/new-php-project)
 
-_Quick start: Jump to the <a href="#Configuration">Configuration Overview</a> to get started right away._
+_Quick start: Jump to the <a href="#configuration">Configuration Overview</a> to get started right away._
 
 ---
 ## Usage ##
