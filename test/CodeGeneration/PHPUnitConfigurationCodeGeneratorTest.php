@@ -10,7 +10,7 @@ class PHPUnitConfigurationCodeGeneratorTest extends \PHPUnit_Framework_TestCase
     $project->addPath("a");
     $project->addPath("b");
     
-    $data = PHPUnitConfigurationCodeGenerator::generate($project, array('coverage'=>1));
+    $data = \NPP\CodeGeneration\PHPUnitConfigurationCodeGenerator::generate($project, array('coverage'=>1));
     $this->assertRegExp('/<\?xml version="1.0" encoding="UTF-8"\?>/', $data);
     $this->assertRegExp('/<phpunit/', $data);
     $this->assertRegExp('/<directory suffix=".php">a<\/directory>/', $data);

@@ -5,3 +5,4 @@ build/**
 .php_error.log
 new-php-project.json
 temp.txt
+changes.txt

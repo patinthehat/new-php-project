@@ -1,6 +1,9 @@
 <?php
 
-class TestableHttpClient extends HttpClient {
+namespace NPP\Http;
+
+class TestableHttpClient extends \NPP\Http\HttpClient
+{
 
   public function setData($data)
   {

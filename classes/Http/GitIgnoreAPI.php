@@ -1,5 +1,7 @@
 <?php
 
+namespace NPP\Http;
+
 class GitIgnoreAPI
 {
   protected $http;

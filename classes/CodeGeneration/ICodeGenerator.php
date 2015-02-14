@@ -1,5 +1,6 @@
 <?php
   
+namespace NPP\CodeGeneration;
 
 interface ICodeGenerator
 {

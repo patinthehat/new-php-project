@@ -1,5 +1,7 @@
 <?php
 
+namespace NPP\Http;
+
 class HttpClient
 {
   const DEFAULT_TIMEOUT = 10;

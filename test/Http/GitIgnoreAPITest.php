@@ -7,7 +7,7 @@ class GitIgnoreAPITest extends \PHPUnit_Framework_TestCase
   
   function setUp()
   {
-    $this->http = new HttpClientStub(array(
+    $this->http = new \NPP\Http\HttpClientStub(array(
         '/\/api\/list/'=>array(
               'name'=>'getList', 
               'code'=>200, 
@@ -29,7 +29,7 @@ class GitIgnoreAPITest extends \PHPUnit_Framework_TestCase
         ),
       )
     );    
-    $this->giapi = new GitIgnoreAPI($this->http);
+    $this->giapi = new \NPP\Http\GitIgnoreAPI($this->http);
   }
 
   public function testAddItem()

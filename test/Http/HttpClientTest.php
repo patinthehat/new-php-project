@@ -6,7 +6,7 @@ class HttpClientTest extends \PHPUnit_Framework_TestCase
   
   function setUp()
   {
-    $this->http = new TestableHttpClient();
+    $this->http = new \NPP\Http\TestableHttpClient();
   }
 
   public function testGetHttpCode()
@@ -138,7 +138,6 @@ class HttpClientTest extends \PHPUnit_Framework_TestCase
     $this->assertCount(1, $this->http->getResponseHeaders());
     $this->assertEquals('abcd', $this->http->getResponseHeader('X-TEST-1'));
   }
-  
   
   public function testGet()
   {

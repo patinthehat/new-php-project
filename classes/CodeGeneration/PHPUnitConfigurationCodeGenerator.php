@@ -1,5 +1,7 @@
 <?php
 
+namespace NPP\CodeGeneration;
+
 class PHPUnitConfigurationCodeGenerator implements ICodeGenerator
 {
 

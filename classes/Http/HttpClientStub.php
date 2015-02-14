@@ -1,5 +1,7 @@
 <?php
 
+namespace NPP\Http;
+
 class HttpClientStub extends HttpClient
 {
   protected $returnData = array();

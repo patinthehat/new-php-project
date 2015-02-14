@@ -35,7 +35,7 @@ class PHPProjectTest extends \PHPUnit_Framework_TestCase
     $project->setClasses(array('MyClass1'));
     $project->addClassFiles();
     
-    $codeTest = PHPClassCodeGenerator::generate($project, 'MyClass1');
+    $codeTest = \NPP\CodeGeneration\PHPClassCodeGenerator::generate($project, 'MyClass1');
     $this->assertEquals(md5($codeTest), md5($project->getFiles()['classes/MyClass1.php']->getData()));
     $this->assertCount(1, $project->getFiles()); 
   }
@@ -45,8 +45,8 @@ class PHPProjectTest extends \PHPUnit_Framework_TestCase
     $project = new PHPProject('TESTNAME', 'TESTBASEPATH');
     $project->setClasses(array('MyClass1'));
     $project->addClassFiles(true);  
-    $data = PHPTestCodeGenerator::generate($project, "classes/MyClass1.php");    
-    $codeTest = PHPClassCodeGenerator::generate($project, 'MyClass1');
+    $data = \NPP\CodeGeneration\PHPTestCodeGenerator::generate($project, "classes/MyClass1.php");    
+    $codeTest = \NPP\CodeGeneration\PHPClassCodeGenerator::generate($project, 'MyClass1');
     $this->assertEquals($data, $project->getFiles()['tests/MyClass1Test.php']->getData());
     $this->assertCount(2, $project->getFiles());
   }  

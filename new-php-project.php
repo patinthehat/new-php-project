@@ -28,6 +28,8 @@
  *
  */
 
+namespace NPP;
+
 require_once(dirname(__FILE__).'/autoload.php');
 require_once(dirname(__FILE__).'/include/utils.php');
 
@@ -42,7 +44,7 @@ if (!configuration_file_exists()) {
   die(1);
 }
 
-$config = new JsonConfiguration();
+$config = new \JsonConfiguration();
 $config->init(basename(__FILE__,".php").".json");
 $config->load();
 $config->setSetting("year", date('Y'));
@@ -55,7 +57,7 @@ $getVariable =
     return $ret;
   };
   
-$ap = new ArgumentParser($argv);
+$ap = new \ArgumentParser($argv);
 $ap->parse();
 
 if ($ap->hasOneOfArguments("help","h")) {
@@ -92,15 +94,17 @@ $codeCoverage           = $ap->hasOneOfArguments(array("coverage",  "C"));
 $generateGitIgnore      = $ap->hasOneOfArguments(array("gitignore", "gi"));
 $generateLicense        = $ap->hasOneOfArguments(array("license",   "L"));
 $makeProjectFileExec    = $ap->hasOneOfArguments(array("exec",      "X"));
+$generateWebProject     = $ap->hasOneOfArguments(array("web",       "W"));
 
 $gitIgnoreData = "";
-//by default, have git ignore the php error log
-$gitIgnoreData .= "### php error log ###\n".ini_get('error_log')."\n\n";
 
 //generate a .gitignore file using https://www.gitignore.io API if types were passed
 //using --gitignore=a,b,c; see https://www.gitignore.io/api/list
 if ($generateGitIgnore) {
-  $gitIgnoreIoAPI = new GitIgnoreAPI(new HttpClient());
+  //by default, have git ignore the php error log
+  $gitIgnoreData .= "### php error log ###\n".ini_get('error_log')."\n\n";
+  
+  $gitIgnoreIoAPI = new \NPP\Http\GitIgnoreAPI(new \NPP\Http\HttpClient());
   $gitIgnoreItems = $ap->getArgumentValueIfExists("gitignore", "");
   if (!$gitIgnoreItems || $gitIgnoreItems == "")
     $gitIgnoreItems = $ap->getArgumentValueIfExists("gi", "");
@@ -110,7 +114,6 @@ if ($generateGitIgnore) {
     $gitIgnoreIoAPI->getHttpClient()->init(10, "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10; rv:33.0) Gecko/20100101 Firefox/33.0");
     $gitIgnoreIoAPI->getHttpClient()->setGzipEncoding(true);
     $gitIgnoreData .= $gitIgnoreIoAPI->getGitIgnore();
-    unset($gitIgnoreIoAPI);
   }
 }
 
@@ -118,13 +121,14 @@ $licenseName = $ap->getArgumentValueIfExists("license", false);
 if (!$licenseName)
   $licenseName = $ap->getArgumentValueIfExists("L", false);
 
-if ($ap->hasArgument("license")) {
-  $lt = LicenseTemplate::create("data/licenses/$licenseName.xml");
+if ($ap->hasOneOfArguments(array("license","L"))) {
+  $lt = \LicenseTemplate::create("data/licenses/$licenseName.xml");
   $lt->processNoticeVariables($getVariable);
   $lt->processLicenseVariables($getVariable);
+  //wrap notice in a multi-line comment
   $lt->notice = "/**\n".str_replace("\n", "\n * ", " * ".trim($lt->notice))."\n*/\n";
 } else {
-  $lt = LicenseTemplate::create(false); //creates an empty LicenseTemplate object
+  $lt = \LicenseTemplate::create(false); //creates an empty LicenseTemplate object
 }
 $licenseData = trim($lt->license);
 
@@ -140,17 +144,27 @@ if ($generateTests)
 $paths    = explode(',', $config->getSetting("default-paths").",$pathsArgValue");  //paths to create other than classes,include
 $classes  = explode(',', $classesArgValue); //classes to generate, comma-seperated
 
-$project = new PHPProject($projectName, $targetBasePath);
+
+if ($generateWebProject) {
+  $paths[] = "css";
+  $paths[] = "js";
+  $paths[] = "images";
+}
+
+$project = new \PHPProject($projectName, $targetBasePath);
 $project->setPaths($paths);       //paths to create
 $project->setClasses($classes);   //classnames to generate
 
 $files = array(
-  new File("autoload.php", ".",     PHPAutoloadCodeGenerator::generate($project)),
-  new File("$projectName.php",".",  PHPProjectCodeGenerator::generate($project, array('exec'=>$makeProjectFileExec))),
-  ($generateReadme        ? new File("README.md",".", ReadmeMarkdownCodeGenerator::generate($project)) : false),
-  ($generatePhpUnitConfig ? new File("phpunit.xml",".", PHPUnitConfigurationCodeGenerator::generate($project, array('coverage'=>$phpUnitCodeCoverage))) : false),
-  ($generateGitIgnore     ? new File(".gitignore", ".", $gitIgnoreData) : false),
-  ($generateLicense       ? new File("LICENSE", ".",    $licenseData) : false), 
+  new \File("autoload.php", ".",     \NPP\CodeGeneration\PHPAutoloadCodeGenerator::generate($project)),
+  new \File("$projectName.php",".",  \NPP\CodeGeneration\PHPProjectCodeGenerator::generate($project, array('exec'=>$makeProjectFileExec))),
+  ($generateReadme        ? new \File("README.md",".", \NPP\CodeGeneration\ReadmeMarkdownCodeGenerator::generate($project)) : false),
+  ($generatePhpUnitConfig ? new \File("phpunit.xml",".", \NPP\CodeGeneration\PHPUnitConfigurationCodeGenerator::generate($project, array('coverage'=>$phpUnitCodeCoverage))) : false),
+  ($generateGitIgnore     ? new \File(".gitignore", ".", $gitIgnoreData) : false),
+  ($generateLicense       ? new \File("LICENSE", ".",    $licenseData) : false),
+  ($generateWebProject    ? new \File("index.php", ".",  "<?php\n\n") : false),
+  ($generateWebProject    ? new \File("js/main.js", ".",  "") : false),
+  ($generateWebProject    ? new \File("css/main.css", ".",  "") : false),
 );
 
 $project->setFiles($files);       //files to create

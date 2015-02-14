@@ -1,5 +1,7 @@
 <?php
 
+namespace NPP\CodeGeneration;
+
 class ReadmeMarkdownCodeGenerator implements ICodeGenerator
 {
 
