@@ -2,7 +2,7 @@
 
 namespace NPP\Http;
 
-class HttpClientStub extends HttpClient
+class HttpClientStub extends \NPP\Http\HttpClient
 {
   protected $returnData = array();
   protected $responseCode = 200;
@@ -13,9 +13,14 @@ class HttpClientStub extends HttpClient
     $this->setReturnData($returnData);
   }
 
-  public function setReturnData($data)
+  public function setData($data)
   {
     $this->returnData = $data;
+  }
+  
+  public function setReturnData($data)
+  {
+    $this->setData($data);//returnData = $data;
   }
   
   public function setResponseCode($code)

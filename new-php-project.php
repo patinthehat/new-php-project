@@ -44,8 +44,7 @@ if (!configuration_file_exists()) {
   die(1);
 }
 
-$config = new \JsonConfiguration();
-$config->init(basename(__FILE__,".php").".json");
+$config = new \JsonConfiguration(basename(__FILE__,".php").".json");
 $config->load();
 $config->setSetting("year", date('Y'));
 

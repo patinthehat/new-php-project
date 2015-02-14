@@ -198,7 +198,7 @@ class HttpClient
       $this->setHttpCode($info['http_code']);
       curl_close($ch);
       if ($this->getHttpCode() == 304) {
-        if ($this->hasData())
+        //if ($this->hasData())
           $result = $this->getData();
       } else {
         $this->setData($result);

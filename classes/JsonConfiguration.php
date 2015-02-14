@@ -7,6 +7,7 @@ class JsonConfiguration extends Configuration
   public function load()
   {
     $json = file_get_contents($this->getFilename());
+    $this->setData($json);
     $cfg = json_decode($json, true);
     $this->setSettings($cfg);
   }

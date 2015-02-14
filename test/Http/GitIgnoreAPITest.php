@@ -32,6 +32,15 @@ class GitIgnoreAPITest extends \PHPUnit_Framework_TestCase
     $this->giapi = new \NPP\Http\GitIgnoreAPI($this->http);
   }
 
+  /**
+   * @covers \NPP\Http\GitIgnoreAPI::getHttpClient
+   */
+  public function testGetHttpClient()
+  {
+    $c = $this->giapi->getHttpClient();
+    $this->assertTrue( (is_a($c, 'NPP\\Http\\HttpClient')) );
+  }
+  
   public function testAddItem()
   {
     $this->giapi->resetItems();
@@ -99,9 +108,15 @@ class GitIgnoreAPITest extends \PHPUnit_Framework_TestCase
   public function testGet304Response()
   {
     $this->giapi->resetItems();
+    
     $data = $this->giapi->getCached();
     $this->assertRegExp("/eclipse/", $data);
     $this->assertRegExp("/linux/", $data);
+  }
+  
+  public function testBadUrl()
+  {
+    $this->assertEquals("", $this->http->get("__BAD_URL__",false));
   }
   
 

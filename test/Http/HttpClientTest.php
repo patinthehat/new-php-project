@@ -139,10 +139,15 @@ class HttpClientTest extends \PHPUnit_Framework_TestCase
     $this->assertEquals('abcd', $this->http->getResponseHeader('X-TEST-1'));
   }
   
-  public function testGet()
+  public function testGzipEncodingAndGet()
   {
-    
     $this->http->reset();
+    $this->http->setGzipEncoding(true);
+    $this->assertTrue($this->http->getGzipEncoding());
+    $this->http->setGzipEncoding(false);
+    $this->assertFalse($this->http->getGzipEncoding());
+    $this->http->setGzipEncoding(null);
+    $this->assertFalse($this->http->getGzipEncoding());        
     $data = $this->http->get("file://".__FILE__);
     $this->assertEquals(file_get_contents(__FILE__), $data);
   }

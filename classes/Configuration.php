@@ -6,6 +6,11 @@ abstract class Configuration
     protected $data;
     protected $settings = array();
 
+    public function __construct($filename="")
+    {
+      $this->init($filename);
+    }
+    
     public function getFilename()
     {
       return $this->filename;
@@ -26,7 +31,7 @@ abstract class Configuration
       $this->data = $value;
     }
     
-    protected function setSettings($value)
+    public function setSettings($value)
     {
       $this->settings = $value;
     }
@@ -36,9 +41,16 @@ abstract class Configuration
       return $this->settings;
     }
 
-    public function init($filename)
+    public function reset()
     {
       $this->settings = array();
+      $this->setData("");
+      $this->setFilename("");
+    }
+    
+    public function init($filename)
+    {
+      $this->reset();
       $this->setFilename($filename);
     }
 
