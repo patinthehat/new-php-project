@@ -1,6 +1,7 @@
 .settings/**
 build/**
-data/**
 .buildpath
 .project
 .php_error.log
+new-php-project.json
+temp.txt

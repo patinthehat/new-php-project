@@ -28,10 +28,33 @@
  *
  */
 
-
 require_once(dirname(__FILE__).'/autoload.php');
 require_once(dirname(__FILE__).'/include/utils.php');
 
+$applicationName  = basename($argv[0],".php");
+
+if (!configuration_file_exists()) {
+  if (configuration_dist_file_exists()) {
+    echo "Error: Configuration file does not exist.  Please rename the '$applicationName.json.dist' file.\n";
+  } else {
+    echo "Error: Configuration file '$applicationName.json' not found.\n";
+  }
+  die(1);
+}
+
+$config = new JsonConfiguration();
+$config->init(basename(__FILE__,".php").".json");
+$config->load();
+$config->setSetting("year", date('Y'));
+
+$getVariable = 
+  function($name) use ($config) {
+    $ret = $config->getSetting($name);
+    if ($name=="email") //wrap email address in "< .. >"
+      $ret = "<$ret>";
+    return $ret;
+  };
+  
 $ap = new ArgumentParser($argv);
 $ap->parse();
 
@@ -48,6 +71,7 @@ if ($ap->getOperandCount() == 0) {
 $projectName      = trim($ap->getOperand(0));
 $targetBasePath   = realpath(".");
 $targetPath       = "$targetBasePath/$projectName"; 
+
 
 if (project_exists($projectName)) {
   echo "Invalid project name: project already exists.\n";
@@ -67,6 +91,7 @@ $generatePhpUnitConfig  = $ap->hasOneOfArguments(array("phpunit",   "U"));
 $codeCoverage           = $ap->hasOneOfArguments(array("coverage",  "C"));
 $generateGitIgnore      = $ap->hasOneOfArguments(array("gitignore", "gi"));
 $generateLicense        = $ap->hasOneOfArguments(array("license",   "L"));
+$makeProjectFileExec    = $ap->hasOneOfArguments(array("exec",      "X"));
 
 $gitIgnoreData = "";
 //by default, have git ignore the php error log
@@ -93,15 +118,26 @@ $licenseName = $ap->getArgumentValueIfExists("license", false);
 if (!$licenseName)
   $licenseName = $ap->getArgumentValueIfExists("L", false);
 
+if ($ap->hasArgument("license")) {
+  $lt = LicenseTemplate::create("data/licenses/$licenseName.xml");
+  $lt->processNoticeVariables($getVariable);
+  $lt->processLicenseVariables($getVariable);
+  $lt->notice = "/**\n".str_replace("\n", "\n * ", " * ".trim($lt->notice))."\n*/\n";
+} else {
+  $lt = LicenseTemplate::create(false); //creates an empty LicenseTemplate object
+}
+$licenseData = trim($lt->license);
+
+
 $phpUnitCodeCoverage    = ($generatePhpUnitConfig && $codeCoverage ? 1 : 0);
 
 if ($generatePhpUnitConfig) //phpUnitConfig flag implies --tests
   $generateTests = true;
 
 if ($generateTests)
-  $pathsArgValue .= ",tests";
+  $pathsArgValue .= ",".$config->getSetting("tests-path");
 
-$paths    = explode(',', "classes,include,$pathsArgValue");  //paths to create other than classes,include
+$paths    = explode(',', $config->getSetting("default-paths").",$pathsArgValue");  //paths to create other than classes,include
 $classes  = explode(',', $classesArgValue); //classes to generate, comma-seperated
 
 $project = new PHPProject($projectName, $targetBasePath);
@@ -110,15 +146,16 @@ $project->setClasses($classes);   //classnames to generate
 
 $files = array(
   new File("autoload.php", ".",     PHPAutoloadCodeGenerator::generate($project)),
-  new File("$projectName.php",".",  PHPProjectCodeGenerator::generate($project)),
+  new File("$projectName.php",".",  PHPProjectCodeGenerator::generate($project, array('exec'=>$makeProjectFileExec))),
   ($generateReadme        ? new File("README.md",".", ReadmeMarkdownCodeGenerator::generate($project)) : false),
   ($generatePhpUnitConfig ? new File("phpunit.xml",".", PHPUnitConfigurationCodeGenerator::generate($project, array('coverage'=>$phpUnitCodeCoverage))) : false),
   ($generateGitIgnore     ? new File(".gitignore", ".", $gitIgnoreData) : false),
-  ($generateLicense       ? new File("LICENSE", ".", "") : false), 
+  ($generateLicense       ? new File("LICENSE", ".",    $licenseData) : false), 
 );
 
 $project->setFiles($files);       //files to create
 $project->addClassFiles($generateTests); //generate new class filenames and add them to files 
 $project->createProject();        //generate the new project
 
-chmod($project->getProjectFilename(), 0755); //make project file executable
+if ($makeProjectFileExec)
+  chmod($project->getProjectFilename(), 0755); //make project file executable

@@ -42,6 +42,7 @@ Usage:
    -T|--tests           : generate a \"tests\" directory and unit tests for generated classes.
    -U|--phpunit         : generate a PHPUnit configuration file. Implies --tests.
    -C|--coverage        : generate code coverage report, requires --phpunit.
+   -X|--exec            : add a hashbang line to the project.php file, and chmod +x project.php.
    -h|--help            : show this message.
 
 Examples:
@@ -69,6 +70,16 @@ function project_exists($projectName)
   if (file_exists($projectName) && is_dir($projectName))
     return true;
   return false;
+}
+
+function configuration_file_exists()
+{
+  return (file_exists(dirname(__FILE__)."/../new-php-project.json"));
+}
+
+function configuration_dist_file_exists()
+{
+  return (file_exists(dirname(__FILE__)."/../new-php-project.json.dist"));
 }
 
 function dashes_to_underscores($str)

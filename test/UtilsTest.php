@@ -72,4 +72,15 @@ class UtilsTest extends \PHPUnit_Framework_TestCase
     $this->assertTrue(project_exists($projectName));
     rmdir("./$projectName");
   }
+
+  public function testConfigurationFileExists()
+  {
+    $this->assertEquals(file_exists("new-php-project.json"), configuration_file_exists());
+  }
+  
+  public function testConfigurationDistFileExists()
+  {
+    $this->assertEquals(file_exists("new-php-project.json.dist"), configuration_dist_file_exists());
+  }
+  
 }
