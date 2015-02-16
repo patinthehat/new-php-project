@@ -3,6 +3,8 @@
 /**
  * Creates a new PHP project in the current directory.
  *
+ * beta version.
+ * 
  * =============================================================================
  * The MIT License (MIT)
  *
