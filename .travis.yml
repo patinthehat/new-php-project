@@ -7,3 +7,6 @@ before_script:
 
 script:
  - phpunit
+ 
+notifications:
+  hipchat: 70ca4e94854d0e741b7e01790e2a6a@Patinthehat
