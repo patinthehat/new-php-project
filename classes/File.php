@@ -1,5 +1,7 @@
 <?php
   
+namespace NPP;
+
 class File 
 { 
   protected $path;

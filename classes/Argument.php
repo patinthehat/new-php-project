@@ -1,5 +1,7 @@
 <?php
 
+namespace NPP;
+
 class Argument
 {
   protected $name;

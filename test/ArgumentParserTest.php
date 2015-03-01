@@ -1,5 +1,6 @@
 <?php
 
+namespace NPP;
 
 class ArgumentParserTest extends \PHPUnit_Framework_TestCase
 {
@@ -98,7 +99,7 @@ class ArgumentParserTest extends \PHPUnit_Framework_TestCase
   {
     $ap1 = $this->getArgParser("hasOperands");
     $ap1->parse();
-    $this->assertEquals('Argument', get_class($ap1->getArgument('a')));
+    $this->assertEquals(__NAMESPACE__.'\Argument', get_class($ap1->getArgument('a')));
     $this->assertTrue($ap1->getArgument('a')->getValue());
     $this->assertEquals('value1', $ap1->getArgument('test')->getValue());
     $this->assertEquals("123", $ap1->getArgument('D')->getValue());

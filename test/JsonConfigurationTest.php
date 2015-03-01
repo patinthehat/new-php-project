@@ -19,7 +19,7 @@ class JsonConfigurationTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
       mt_srand(0); //seed random number generator
-      $this->conf = new JsonConfiguration();
+      $this->conf = new \JsonConfiguration();
     }
 
     /**
@@ -63,7 +63,7 @@ class JsonConfigurationTest extends \PHPUnit_Framework_TestCase
     public function testConstructThenLoadAndGetSettings()
     {
       $testfn = $this->createTestConfig();
-      $this->conf = new JsonConfiguration();
+      $this->conf = new \JsonConfiguration();
       $this->assertTrue(is_a($this->conf, 'JsonConfiguration'));
       $this->conf->init($testfn);
       $this->assertCount(0, $this->conf->getSettings());

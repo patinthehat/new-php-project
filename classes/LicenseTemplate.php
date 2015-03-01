@@ -1,6 +1,8 @@
 <?php
 
-class LicenseTemplate extends SimpleXMLElement 
+namespace NPP;
+
+class LicenseTemplate extends \SimpleXMLElement 
 {
   
   public static function create($filename)

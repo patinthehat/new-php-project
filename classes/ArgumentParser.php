@@ -1,5 +1,7 @@
 <?php
 
+namespace NPP;
+
 require_once(dirname(__FILE__).'/../include/utils.php');
 
 class ArgumentParser 
@@ -18,7 +20,7 @@ class ArgumentParser
     }
     
     if (!is_array($args))
-      throw new Exception("First argument must be array");
+      throw new \Exception("First argument must be array");
       
     $this->args = $args;
   }

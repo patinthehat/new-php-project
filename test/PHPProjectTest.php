@@ -1,5 +1,7 @@
 <?php
 
+namespace NPP;
+
 require_once('include/utils.php');
 
 class PHPProjectTest extends \PHPUnit_Framework_TestCase

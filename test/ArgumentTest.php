@@ -1,5 +1,6 @@
 <?php
 
+namespace NPP;
 
 class ArgumentTest extends \PHPUnit_Framework_TestCase
 {

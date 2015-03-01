@@ -9,4 +9,9 @@ script:
  - phpunit
  
 notifications:
-  hipchat: 70ca4e94854d0e741b7e01790e2a6a@Patinthehat
+  hipchat:
+    rooms:
+      - 70ca4e94854d0e741b7e01790e2a6a@Patinthehat
+    template:
+      - '%{repository}#%{build_number} (%{branch} - %{commit} : %{author}): %{message}'
+    notify: true

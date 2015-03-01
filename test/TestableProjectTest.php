@@ -4,20 +4,20 @@ class TestableProjectTest extends \PHPUnit_Framework_TestCase
 {
   public function testInit()
   {
-    $project = new TestableProject('TESTNAME', 'TESTBASEPATH');        
+    $project = new \TestableProject('TESTNAME', 'TESTBASEPATH');        
     $this->assertEquals('TESTNAME', $project->getName());
     $this->assertEquals('TESTBASEPATH', $project->getBasePath());
   }
   
   public function testTargetPath()
   {
-    $project = new TestableProject('TESTNAME', 'TESTBASEPATH');
+    $project = new \TestableProject('TESTNAME', 'TESTBASEPATH');
     $this->assertEquals('TESTBASEPATH/TESTNAME', $project->getTargetPath());
   }
   
   public function testAddPath()
   {
-    $project = new TestableProject('TESTNAME', 'TESTBASEPATH');
+    $project = new \TestableProject('TESTNAME', 'TESTBASEPATH');
     $project->addPath('PATH1');    
     $this->assertEquals('PATH1', $project->getPaths()[0]);
     $this->assertCount(1, $project->getPaths());
@@ -25,7 +25,7 @@ class TestableProjectTest extends \PHPUnit_Framework_TestCase
 
   public function testSetPaths()
   {
-    $project = new TestableProject('TESTNAME', 'TESTBASEPATH');
+    $project = new \TestableProject('TESTNAME', 'TESTBASEPATH');
     $project->setPaths(array('PATH1'));  
     $this->assertEquals('PATH1', $project->getPaths()[0]);
     $this->assertCount(1, $project->getPaths());
@@ -34,7 +34,7 @@ class TestableProjectTest extends \PHPUnit_Framework_TestCase
   public function testAddFile()
   {
     $project = new TestableProject('TESTNAME', 'TESTBASEPATH');
-    $project->addFile(new File('FILE1', '.', 'TESTDATA'));  
+    $project->addFile(new \NPP\File('FILE1', '.', 'TESTDATA'));  
     $this->assertTrue(isset($project->getFiles()['FILE1']));
     $this->assertEquals('TESTDATA', $project->getFiles()['FILE1']->getData());
     $this->assertCount(1, $project->getFiles());
@@ -42,8 +42,8 @@ class TestableProjectTest extends \PHPUnit_Framework_TestCase
     
   public function testSetFiles()
   {
-    $project = new TestableProject('TESTNAME', 'TESTBASEPATH');
-    $project->setFiles(array(new File('FILE1', '.', 'TESTDATA')));  
+    $project = new \TestableProject('TESTNAME', 'TESTBASEPATH');
+    $project->setFiles(array(new \NPP\File('FILE1', '.', 'TESTDATA')));  
     $this->assertTrue(isset($project->getFiles()['FILE1']));
     
     $this->assertEquals('TESTDATA', $project->getFiles()['FILE1']->getData());
@@ -52,7 +52,7 @@ class TestableProjectTest extends \PHPUnit_Framework_TestCase
   
   public function testGetProjectFileName()
   {
-    $project = new TestableProject('TESTNAME', 'TESTBASEPATH');
+    $project = new \TestableProject('TESTNAME', 'TESTBASEPATH');
     $this->assertEquals("TESTBASEPATH/TESTNAME/TESTNAME", $project->getProjectFilename());    
   }
   
@@ -61,7 +61,7 @@ class TestableProjectTest extends \PHPUnit_Framework_TestCase
     $rand = mt_rand(10000, 99999);
     $projectName = "TESTPROJECT$rand";  
       
-    $project = new TestableProject($projectName, __DIR__);
+    $project = new \TestableProject($projectName, __DIR__);
     $project->addPath('classes');    
     $this->assertFalse(file_exists($project->getTargetPath()));
     $project->createProjectPaths();    
@@ -76,8 +76,8 @@ class TestableProjectTest extends \PHPUnit_Framework_TestCase
     $rand = mt_rand(10000, 99999);
     $projectName = "TESTPROJECT$rand";
   
-    $project = new TestableProject($projectName, __DIR__);
-    $project->addFile(new File("testfile.txt", ".", "TEST FILE"));  
+    $project = new \TestableProject($projectName, __DIR__);
+    $project->addFile(new \NPP\File("testfile.txt", ".", "TEST FILE"));  
     $this->assertFalse(file_exists($project->getTargetPath()."/testfile.txt"));
     $project->createProjectPaths();
     $project->createProjectFiles();
@@ -93,8 +93,8 @@ class TestableProjectTest extends \PHPUnit_Framework_TestCase
     $rand = mt_rand(10000, 99999);
     $projectName = "TESTPROJECT$rand";
   
-    $project = new TestableProject($projectName, __DIR__);
-    $project->addFile(new File("testfile.txt", ".", "TEST FILE"));
+    $project = new \TestableProject($projectName, __DIR__);
+    $project->addFile(new \NPP\File("testfile.txt", ".", "TEST FILE"));
     $project->addPath('classes');
     $this->assertFileNotExists($project->getTargetPath());
     $this->assertTrue($project->createProject());

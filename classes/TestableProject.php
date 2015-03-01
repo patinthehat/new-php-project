@@ -1,6 +1,6 @@
 <?php
 
-class TestableProject extends Project
+class TestableProject extends \NPP\Project
 {
   
   function preCreateProject()

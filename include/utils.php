@@ -27,11 +27,11 @@
  *
  */
 
-function usage($projectFilename)
+function usage($appFilename)
 {
-  $message = "$projectFilename - generate a new PHP project.
+  $message = "$appFilename - generate a new PHP project.
 Usage: 
-   $projectFilename <options> [project-name]
+   $appFilename <options> [project-name]
 
    --paths=[a,b,...]    : directories to create in the project folder, comma separated.
    --classes=[a,b,...]  : classes to generate, comma separated.
@@ -47,9 +47,9 @@ Usage:
    -h|--help            : show this message.
 
 Examples:
-  * $projectFilename 'myProjectName' --paths=templates --classes=MyClass1,MyClass2 --readme
-  * $projectFilename 'myProjectName' --tests
-  * $projectFilename -TR myProjectName
+  * $appFilename 'myProjectName' --paths=templates --classes=MyClass1,MyClass2 --readme
+  * $appFilename 'myProjectName' --tests
+  * $appFilename -TR myProjectName
 
 ";
 

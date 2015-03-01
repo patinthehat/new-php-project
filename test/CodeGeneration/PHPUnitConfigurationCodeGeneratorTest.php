@@ -6,7 +6,7 @@ class PHPUnitConfigurationCodeGeneratorTest extends \PHPUnit_Framework_TestCase
   
   public function testGenerate() 
   {
-    $project = new PHPProject("TEST", ".");
+    $project = new \NPP\PHPProject("TEST", ".");
     $project->addPath("a");
     $project->addPath("b");
     

@@ -26,7 +26,7 @@ spl_autoload_register(function ($class) {
         // no, move to the next registered autoloader
         
         if (file_exists($base_dir."$class.php"))
-        	require $base_dir."$class.php";
+        	require_once $base_dir."$class.php";
 
         return;
     }
@@ -41,7 +41,7 @@ spl_autoload_register(function ($class) {
 
     // if the file exists, require it
     if (file_exists($file)) {
-        require $file;
+        require_once $file;
     }
 });
 

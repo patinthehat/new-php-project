@@ -27,6 +27,7 @@
  *
  */
 
+namespace NPP;
 
 abstract class Project
 {
