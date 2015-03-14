@@ -7,11 +7,12 @@ class LicenseTemplate extends \SimpleXMLElement
   
   public static function create($filename)
   {
+    $data = "";
     if (file_exists($filename)) {
       $data = file_get_contents($filename);
     } else {
-      if ($filename !== false)
-        echo "License file not found.\n";
+//      if ($filename !== false)
+        //echo "License file not found.\n";
 
       $data = "
 <?xml version=\"1.0\"?>
@@ -25,6 +26,16 @@ class LicenseTemplate extends \SimpleXMLElement
     
     $o = new self(trim($data));//$options, $data_is_url, $ns, $is_prefix)
     return $o;
+  }
+  
+  public function getLicense()
+  {
+    return strval($this->license);
+  }
+  
+  public function getNotice()
+  {
+    return strval($this->notice);
   }
   
   public function processNoticeVariables($getVariableCallback)

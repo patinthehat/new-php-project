@@ -1,6 +1,10 @@
 #!/usr/bin/php
 <?php
 /**
+ * @author Patrick Organ <trick.developer@gmail.com>
+ * @version 0.17
+ * @license MIT
+ * 
  * Creates a new PHP project in the current directory.
  *
  * beta version.
@@ -54,10 +58,11 @@ if (!configuration_file_exists()) {
 
 $app->argParser()->parse();
 
-$config = new \JsonConfiguration($app->getConfigFilename('json'));
+$config = new \JsonConfiguration(realpath(dirname(__FILE__))."/".$app->getConfigFilename('json'));
 $config->load();
 $config->setSetting("year", date('Y'));
 
+//used by LicenseTemplate to get variable values and to format them
 $getVariable = 
   function($name) use ($config) {
     $ret = $config->getSetting($name);
@@ -128,7 +133,7 @@ if (!$licenseName)
   $licenseName = $app->argParser()->getArgumentValueIfExists("L", false);
 
 if ($app->argParser()->hasOneOfArguments(array("license","L"))) {
-  $lt = \NPP\LicenseTemplate::create("data/licenses/$licenseName.xml");
+  $lt = \NPP\LicenseTemplate::create(realpath(dirname(__FILE__))."/data/licenses/$licenseName.xml");
   $lt->processNoticeVariables($getVariable);
   $lt->processLicenseVariables($getVariable);
   //wrap notice in a multi-line comment

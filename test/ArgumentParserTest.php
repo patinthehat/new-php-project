@@ -145,4 +145,9 @@ class ArgumentParserTest extends \PHPUnit_Framework_TestCase
     $this->assertEquals(0, $ap3->getArgumentCount());
   }  
     
+  public function testGetArgs()
+  {
+    $this->assertEquals($this->args['hasOperands'], $this->ap['hasOperands']->getArgs());
+  }
+  
 }

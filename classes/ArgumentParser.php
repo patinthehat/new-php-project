@@ -98,6 +98,11 @@ class ArgumentParser
     return count($this->arguments);
   }
   
+  function getArgs()
+  {
+    return $this->args;
+  }
+  
   function parse()
   {
     $n = 0;

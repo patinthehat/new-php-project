@@ -13,16 +13,16 @@ class Application
   
   /**
    * 
-   * @var \ArgumentParser
+   * @var \NPP\ArgumentParser
    */
   protected $argParser;
   
-  
+
   function __construct($argumentParser)
   {
-    global $argv;
-    $this->name = basename($argv[0], ".php");
     $this->argParser = $argumentParser;
+    $args = $this->argParser->getArgs();
+    $this->name = basename($args[0], ".php");
   }
   
   public function argParser()
